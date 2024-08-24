@@ -1,4 +1,5 @@
 import numpy as np
+import cv2
 def splitBoxes(img, rows, cols):
     # Calculate the size of each box
     h, w = img.shape[:2]
@@ -35,8 +36,6 @@ def splitVerticallyBoxes(img,vsplits):
     for r in rows:
         boxes.append(r)   
     return boxes
-import cv2
-import numpy as np
 
 # Define constants
 MAX_FEATURES = 500
