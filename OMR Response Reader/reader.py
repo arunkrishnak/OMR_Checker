@@ -6,6 +6,9 @@ import fitz
 import cornerdetect
 import os
 import glob
+# reader.py
+from utils import align_and_crop_image
+
 
 def readeromr(path="output.pdf", zoom_factor=3):
  widthImg=2480
@@ -39,8 +42,8 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # Convert the PDF to an image
  img_bytes = pdf_to_image(path, zoom=zoom_factor)
  img = cv2.imdecode(np.frombuffer(img_bytes, np.uint8), cv2.IMREAD_COLOR)
- img=cornerdetect.croppedOMR(img)
- #cv2.imwrite("path.jpg", img)
+ img = align_and_crop_image(img)
+ cv2.imwrite("path.jpg", img)
  
  #Image Processing
  img=cv2.resize(img,(widthImg,heightImg))
