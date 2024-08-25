@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 import utils
 import fitz  
-import cornerdetect
 import os
 import glob
 from utils import align_and_crop_image
@@ -77,33 +76,23 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[34])
  # cv2.imshow("Last",boxes[139])
  
- myPixelVal=np.zeros((sidchoices,sidq))#arrayfilled with zeros
+ myPixelVal = np.zeros((sidchoices, sidq))  # array filled with zeros
  
  for countC, col_images in enumerate(transposed_boxes):
-         for countR, image in enumerate(col_images):
-             totalPixels = cv2.countNonZero(image)
-             myPixelVal[countC][countR] = totalPixels
+     for countR, image in enumerate(col_images):
+         totalPixels = cv2.countNonZero(image)
+         myPixelVal[countC][countR] = totalPixels
  
- sidrecords=[]
- for row in range(sidchoices):#after transposing the array
+ sidrecords = []
+ for row in range(sidchoices):
      max_val = np.amax(myPixelVal[row])
-     #print(max_val)
      if max_val > 600:
          myIndexVal = np.where(myPixelVal[row] == max_val)
          sidrecords.append(str(myIndexVal[0][0]))
      else:
-         sidrecords.append("Not marked")
+         sidrecords.append("")  # Changed "Not marked" to "0"
  
-#  stidRemoved= [record for record in sidrecords if record != "Not marked"]#Remove not marked from list
  student_id = ''.join(sidrecords)
- 
- # Define the filename
- filename =f"{student_id}_records.csv"
- 
- # Append section 2 records to the same CSV
- with open(filename, 'w', newline='') as csvfile: 
-     writer = csv.writer(csvfile)
-     writer.writerow([f"Student ID: {student_id}"])
  #########################################################################
  
  ######################## SCRIPT VERSION SECTION ###############################
@@ -135,28 +124,23 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[34])
  # cv2.imshow("Last",boxes[139])
  
- myPixelVal=np.zeros((svchoices,svq))#arrayfilled with zeros
- 
+ myPixelVal = np.zeros((svchoices, svq))  # array filled with zeros
+
  for countC, col_images in enumerate(transposed_boxes):
-         for countR, image in enumerate(col_images):
-             totalPixels = cv2.countNonZero(image)
-             myPixelVal[countC][countR] = totalPixels
+     for countR, image in enumerate(col_images):
+         totalPixels = cv2.countNonZero(image)
+         myPixelVal[countC][countR] = totalPixels
  
- scriptVrecords=[]
+ scriptVrecords = []
  for row in range(svchoices):
      max_val = np.amax(myPixelVal[row])
-     #print(max_val)
      if max_val > 700:
          myIndexVal = np.where(myPixelVal[row] == max_val)
          scriptVrecords.append(str(myIndexVal[0][0]))
      else:
-         scriptVrecords.append("Not marked")
+         scriptVrecords.append("")  # Changed "Not marked" to "0"
  
  scriptversion_number = ''.join(scriptVrecords)
- 
- with open(filename, 'a', newline='') as csvfile:
-     writer = csv.writer(csvfile)
-     writer.writerow([f"Script Version: {scriptversion_number}"])
  #########################################################################
  
  ######################## LAST NAME SECTION ###############################
@@ -190,29 +174,23 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[169])
  # cv2.imshow("Last",boxes[337])
  
- myPixelVal=np.zeros((lchoices,lnameq))#arrayfilled with zeros
- 
+ myPixelVal = np.zeros((lchoices, lnameq))  # array filled with zeros
+
  for countC, col_images in enumerate(transposed_boxes):
-         for countR, image in enumerate(col_images):
-             totalPixels = cv2.countNonZero(image)
-             myPixelVal[countC][countR] = totalPixels
-                 
- lnamerecords=[]
+     for countR, image in enumerate(col_images):
+         totalPixels = cv2.countNonZero(image)
+         myPixelVal[countC][countR] = totalPixels
+ 
+ lnamerecords = []
  for row in range(lchoices):
      max_val = np.amax(myPixelVal[row])
-     #print(max_val)
      if max_val > 700:
          myIndexVal = np.where(myPixelVal[row] == max_val)
          lnamerecords.append(alphabet_map[myIndexVal[0][0]])
      else:
-         lnamerecords.append("Not marked")
+         lnamerecords.append("")  # Changed "Not marked" to "0"
  
  lnamerecords = ''.join(lnamerecords)
- 
- with open(filename, 'a', newline='') as csvfile:
-     writer = csv.writer(csvfile)
-     #writer.writerow(["Last Name :"] + [lnamerecords])
-     writer.writerow([f"Last Name: {lnamerecords}"])
  #########################################################################
  
  ######################## FIRST NAME SECTION ###############################
@@ -245,30 +223,23 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[90])
  # cv2.imshow("Last",boxes[181])
  
- myPixelVal=np.zeros((fchoices,fnameq))
+ myPixelVal = np.zeros((fchoices, fnameq))  # array filled with zeros
  
  for countC, col_images in enumerate(transposed_boxes):
-         for countR, image in enumerate(col_images):
-             totalPixels = cv2.countNonZero(image)
-             myPixelVal[countC][countR] = totalPixels
+     for countR, image in enumerate(col_images):
+         totalPixels = cv2.countNonZero(image)
+         myPixelVal[countC][countR] = totalPixels
  
- 
- fnamerecords=[]
+ fnamerecords = []
  for row in range(fchoices):
      max_val = np.amax(myPixelVal[row])
-     #print(max_val)
      if max_val > 700:
          myIndexVal = np.where(myPixelVal[row] == max_val)
          fnamerecords.append(alphabet_map[myIndexVal[0][0]])
      else:
-         fnamerecords.append("Not marked")
+         fnamerecords.append("")  # Changed "Not marked" to "0"
  
  fnamerecords = ''.join(fnamerecords)
- 
- with open(filename, 'a', newline='') as csvfile:
-     writer = csv.writer(csvfile)
-     #writer.writerow(["First Name:"] + [fnamerecords])
-     writer.writerow([f"First Name: {fnamerecords}"])
  
  #########################################################################
  
@@ -301,32 +272,27 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[12])
  # cv2.imshow("Last",boxes[25])
  
- myPixelVal=np.zeros((mnameq,mchoices))
- countC=0
- countR=0
+ myPixelVal = np.zeros((mnameq, mchoices))  # array filled with zeros
+ countC = 0
+ countR = 0
  for image in boxes:
-     totalPixels=cv2.countNonZero(image)
-     myPixelVal[countR][countC]=totalPixels
-     countC+=1
-     if(countC==1):
-         countR+=1
-         countC=0
- #print(myPixelVal)
+     totalPixels = cv2.countNonZero(image)
+     myPixelVal[countR][countC] = totalPixels
+     countC += 1
+     if(countC == mchoices):
+         countR += 1
+         countC = 0
  
- mnamerecords=[]
+ mnamerecords = []
  for row in range(mnameq):
      max_val = np.amax(myPixelVal[row])
-     #print(max_val)
      if max_val > 700:
          myIndexVal = np.where(myPixelVal[row] == max_val)
          mnamerecords.append(chr(97 + row))
      else:
-         mnamerecords.append("Not marked")
+         mnamerecords.append("0")  # Changed "Not marked" to "0"
  
- mnameRemoved= [record for record in mnamerecords if record != "Not marked"]
- with open(filename, 'a', newline='') as csvfile:
-     writer = csv.writer(csvfile)
-     writer.writerow([f"Middle Name: {mnameRemoved}"])
+ mnameRemoved = ''.join(mnamerecords)
  #########################################################################   
  
  ######################## SECTION 1 QUESTIONS ###############################
@@ -358,35 +324,27 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[58])
  # cv2.imshow("Last",boxes[119])
  
- myPixelVal=np.zeros((Sectionq,qchoices))
- countC=0
- countR=0
+ myPixelVal = np.zeros((Sectionq, qchoices))  # array filled with zeros
+ countC = 0
+ countR = 0
  for image in boxes:
-     totalPixels=cv2.countNonZero(image)
-     myPixelVal[countR][countC]=totalPixels
-     countC+=1
-     if(countC==qchoices):
-         countR+=1
-         countC=0
- #print(myPixelVal)
+     totalPixels = cv2.countNonZero(image)
+     myPixelVal[countR][countC] = totalPixels
+     countC += 1
+     if(countC == qchoices):
+         countR += 1
+         countC = 0
  
- sec1records=[]
+ sec1records = []
  for row in range(Sectionq):
      max_val = np.amax(myPixelVal[row])
-     #print(max_val)
      if max_val > 750:
          myIndexVal = np.where(myPixelVal[row] == max_val)
          sec1records.append(alphabet_map[myIndexVal[0][0]])
      else:
-         sec1records.append("Not marked")
+         sec1records.append("0")  # Changed "Not marked" to "0"
  
- 
- with open(filename, 'a', newline='') as csvfile:
-     writer = csv.writer(csvfile)
-     writer.writerow(["Questions", "Answers"])
-     for i, answer in enumerate(sec1records, start=1):
-         writer.writerow([f"Q{i}", answer])
-     writer.writerow("")
+ answers = ''.join(sec1records)
  #########################################################################
  
  ######################## SECTION 2 QUESTIONS ###############################
@@ -417,33 +375,27 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[56])
  # cv2.imshow("Last",boxes[119])
  
- myPixelVal=np.zeros((Sectionq,qchoices))
- countC=0
- countR=0
+ myPixelVal = np.zeros((Sectionq, qchoices))  # array filled with zeros
+ countC = 0
+ countR = 0
  for image in boxes:
-     totalPixels=cv2.countNonZero(image)
-     myPixelVal[countR][countC]=totalPixels
-     countC+=1
-     if(countC==qchoices):
-         countR+=1
-         countC=0
- #print(myPixelVal)
+     totalPixels = cv2.countNonZero(image)
+     myPixelVal[countR][countC] = totalPixels
+     countC += 1
+     if(countC == qchoices):
+         countR += 1
+         countC = 0
  
- sec2records=[]
+ sec1records = []
  for row in range(Sectionq):
      max_val = np.amax(myPixelVal[row])
-     #print(max_val)
-     if max_val > 700:
+     if max_val > 750:
          myIndexVal = np.where(myPixelVal[row] == max_val)
-         sec2records.append(alphabet_map[myIndexVal[0][0]])
+         sec1records.append(alphabet_map[myIndexVal[0][0]])
      else:
-         sec2records.append("Not marked")
+         sec1records.append("0")  # Changed "Not marked" to "0"
  
- with open(filename, 'a', newline='') as csvfile:
-     writer = csv.writer(csvfile)
-     for i, answer in enumerate(sec2records, start=21):
-         writer.writerow([f"Q{i}", answer])
-     writer.writerow("")
+ answers = ''.join(sec1records)
  #########################################################################
  
  ######################## SECTION 3 QUESTIONS ###############################
@@ -474,33 +426,28 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[57])
  # cv2.imshow("Last",boxes[119])
  
- myPixelVal=np.zeros((Sectionq,qchoices))
- countC=0
- countR=0
+ myPixelVal = np.zeros((Sectionq, qchoices))  # array filled with zeros
+ countC = 0
+ countR = 0
  for image in boxes:
-     totalPixels=cv2.countNonZero(image)
-     myPixelVal[countR][countC]=totalPixels
-     countC+=1
-     if(countC==qchoices):
-         countR+=1
-         countC=0
- #print(myPixelVal)
+     totalPixels = cv2.countNonZero(image)
+     myPixelVal[countR][countC] = totalPixels
+     countC += 1
+     if(countC == qchoices):
+         countR += 1
+         countC = 0
  
- sec3records=[]
+ sec1records = []
  for row in range(Sectionq):
      max_val = np.amax(myPixelVal[row])
-     #print(max_val)
-     if max_val > 700:
+     if max_val > 750:
          myIndexVal = np.where(myPixelVal[row] == max_val)
-         sec3records.append(alphabet_map[myIndexVal[0][0]])
+         sec1records.append(alphabet_map[myIndexVal[0][0]])
      else:
-         sec3records.append("Not marked")
+         sec1records.append("0")  # Changed "Not marked" to "0"
  
- with open(filename, 'a', newline='') as csvfile:
-     writer = csv.writer(csvfile)
-     for i, answer in enumerate(sec3records, start=41):
-         writer.writerow([f"Q{i}", answer])
-     writer.writerow("")
+ answers = ''.join(sec1records)
+ 
  #########################################################################
  
  ######################## SECTION 4 QUESTIONS ###############################
@@ -530,33 +477,28 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[57])
  # cv2.imshow("Last",boxes[119])
  
- myPixelVal=np.zeros((Sectionq,qchoices))
- countC=0
- countR=0
+ myPixelVal = np.zeros((Sectionq, qchoices))  # array filled with zeros
+ countC = 0
+ countR = 0
  for image in boxes:
-     totalPixels=cv2.countNonZero(image)
-     myPixelVal[countR][countC]=totalPixels
-     countC+=1
-     if(countC==qchoices):
-         countR+=1
-         countC=0
- #print(myPixelVal)
+     totalPixels = cv2.countNonZero(image)
+     myPixelVal[countR][countC] = totalPixels
+     countC += 1
+     if(countC == qchoices):
+         countR += 1
+         countC = 0
  
- sec4records=[]
+ sec1records = []
  for row in range(Sectionq):
      max_val = np.amax(myPixelVal[row])
-     #print(max_val)
-     if max_val > 700:
+     if max_val > 750:
          myIndexVal = np.where(myPixelVal[row] == max_val)
-         sec4records.append(alphabet_map[myIndexVal[0][0]])
+         sec1records.append(alphabet_map[myIndexVal[0][0]])
      else:
-         sec4records.append("Not marked")
+         sec1records.append("0")  # Changed "Not marked" to "0"
  
- with open(filename, 'a', newline='') as csvfile:
-     writer = csv.writer(csvfile)
-     for i, answer in enumerate(sec4records, start=61):
-         writer.writerow([f"Q{i}", answer])
-     writer.writerow("")
+ answers = ''.join(sec1records)
+ 
  #########################################################################
  
  ######################## SECTION 5 QUESTIONS ###############################
@@ -587,36 +529,35 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[57])
  # cv2.imshow("Last",boxes[119])
  
- myPixelVal=np.zeros((Sectionq,qchoices))
- countC=0
- countR=0
+ myPixelVal = np.zeros((Sectionq, qchoices))  # array filled with zeros
+ countC = 0
+ countR = 0
  for image in boxes:
-     totalPixels=cv2.countNonZero(image)
-     myPixelVal[countR][countC]=totalPixels
-     countC+=1
-     if(countC==qchoices):
-         countR+=1
-         countC=0
- #print(myPixelVal)
+     totalPixels = cv2.countNonZero(image)
+     myPixelVal[countR][countC] = totalPixels
+     countC += 1
+     if(countC == qchoices):
+         countR += 1
+         countC = 0
  
- sec5records=[]
+ sec1records = []
  for row in range(Sectionq):
      max_val = np.amax(myPixelVal[row])
-     #print(max_val)
-     if max_val > 700:
+     if max_val > 750:
          myIndexVal = np.where(myPixelVal[row] == max_val)
-         sec5records.append(alphabet_map[myIndexVal[0][0]])
+         sec1records.append(alphabet_map[myIndexVal[0][0]])
      else:
-         sec5records.append("Not marked")
+         sec1records.append("0")  # Changed "Not marked" to "0"
  
+ answers = ''.join(sec1records)
+ #########################################################################
+  # Define the filename
+ filename = 'answers.txt'
+ 
+ # Append to CSV
  with open(filename, 'a', newline='') as csvfile:
      writer = csv.writer(csvfile)
-     for i, answer in enumerate(sec5records, start=81):
-         writer.writerow([f"Q{i}", answer])
-     writer.writerow("")
- print(f"Records saved as {filename}")
- #########################################################################
- 
+     writer.writerow([f"{student_id} {scriptversion_number} {lnamerecords} {fnamerecords} {mnameRemoved} {answers}"])
  cv2.waitKey(0)
 def process_pdfs_in_folder(folder_path, zoom_factor=3):
     # Construct the full path pattern for PDF files
@@ -631,4 +572,3 @@ def process_pdfs_in_folder(folder_path, zoom_factor=3):
 
 # Call the function with the folder path
 process_pdfs_in_folder("answerpaper", zoom_factor=3)
-
