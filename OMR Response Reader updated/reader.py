@@ -24,6 +24,9 @@ def readeromr(path="output.pdf", zoom_factor=3):
  svq=10
  svchoices=14
  alphabet_map = [chr(i) for i in range(ord('a'), ord('z') + 1)]
+ alphabet_to_value = {
+     'a': '01', 'b': '02', 'c': '04', 'd': '08', 'e': '16', 'f': '32'
+ }
  ###############################################    
  
  img=cv2.imread(path)
@@ -290,7 +293,7 @@ def readeromr(path="output.pdf", zoom_factor=3):
          myIndexVal = np.where(myPixelVal[row] == max_val)
          mnamerecords.append(chr(97 + row))
      else:
-         mnamerecords.append("0")  # Changed "Not marked" to "0"
+         mnamerecords.append("")  # Changed "Not marked" to "0"
  
  mnameRemoved = ''.join(mnamerecords)
  #########################################################################   
@@ -324,26 +327,38 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[58])
  # cv2.imshow("Last",boxes[119])
  
- myPixelVal = np.zeros((Sectionq, qchoices))  # array filled with zeros
+ myPixelVal = np.zeros((Sectionq, qchoices))
  countC = 0
  countR = 0
  for image in boxes:
      totalPixels = cv2.countNonZero(image)
      myPixelVal[countR][countC] = totalPixels
      countC += 1
-     if(countC == qchoices):
+     if countC == qchoices:
          countR += 1
          countC = 0
  
+ # Process answers
  sec1records = []
  for row in range(Sectionq):
-     max_val = np.amax(myPixelVal[row])
-     if max_val > 750:
-         myIndexVal = np.where(myPixelVal[row] == max_val)
-         sec1records.append(alphabet_map[myIndexVal[0][0]])
+     selected_values = []
+     for col in range(qchoices):
+         if myPixelVal[row][col] > 750:
+             # Get the alphabet corresponding to the column index
+             letter = alphabet_map[col]
+             # Add the corresponding value to the list
+             if letter in alphabet_to_value:
+                 selected_values.append(alphabet_to_value[letter])
+     
+     # Concatenate all selected values or set "00" if none
+     if selected_values:
+         answer_string = ''.join(selected_values)
      else:
-         sec1records.append("0")  # Changed "Not marked" to "0"
+         answer_string = '00'
+     
+     sec1records.append(answer_string)
  
+ # Generate the output string
  answers = ''.join(sec1records)
  #########################################################################
  
@@ -375,27 +390,39 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[56])
  # cv2.imshow("Last",boxes[119])
  
- myPixelVal = np.zeros((Sectionq, qchoices))  # array filled with zeros
+ myPixelVal = np.zeros((Sectionq, qchoices))
  countC = 0
  countR = 0
  for image in boxes:
      totalPixels = cv2.countNonZero(image)
      myPixelVal[countR][countC] = totalPixels
      countC += 1
-     if(countC == qchoices):
+     if countC == qchoices:
          countR += 1
          countC = 0
  
+ # Process answers
  sec1records = []
  for row in range(Sectionq):
-     max_val = np.amax(myPixelVal[row])
-     if max_val > 750:
-         myIndexVal = np.where(myPixelVal[row] == max_val)
-         sec1records.append(alphabet_map[myIndexVal[0][0]])
+     selected_values = []
+     for col in range(qchoices):
+         if myPixelVal[row][col] > 750:
+             # Get the alphabet corresponding to the column index
+             letter = alphabet_map[col]
+             # Add the corresponding value to the list
+             if letter in alphabet_to_value:
+                 selected_values.append(alphabet_to_value[letter])
+     
+     # Concatenate all selected values or set "00" if none
+     if selected_values:
+         answer_string = ''.join(selected_values)
      else:
-         sec1records.append("0")  # Changed "Not marked" to "0"
+         answer_string = '00'
+     
+     sec1records.append(answer_string)
  
- answers = ''.join(sec1records)
+ # Generate the output string
+ answers2 = ''.join(sec1records)
  #########################################################################
  
  ######################## SECTION 3 QUESTIONS ###############################
@@ -426,27 +453,39 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[57])
  # cv2.imshow("Last",boxes[119])
  
- myPixelVal = np.zeros((Sectionq, qchoices))  # array filled with zeros
+ myPixelVal = np.zeros((Sectionq, qchoices))
  countC = 0
  countR = 0
  for image in boxes:
      totalPixels = cv2.countNonZero(image)
      myPixelVal[countR][countC] = totalPixels
      countC += 1
-     if(countC == qchoices):
+     if countC == qchoices:
          countR += 1
          countC = 0
  
+ # Process answers
  sec1records = []
  for row in range(Sectionq):
-     max_val = np.amax(myPixelVal[row])
-     if max_val > 750:
-         myIndexVal = np.where(myPixelVal[row] == max_val)
-         sec1records.append(alphabet_map[myIndexVal[0][0]])
+     selected_values = []
+     for col in range(qchoices):
+         if myPixelVal[row][col] > 750:
+             # Get the alphabet corresponding to the column index
+             letter = alphabet_map[col]
+             # Add the corresponding value to the list
+             if letter in alphabet_to_value:
+                 selected_values.append(alphabet_to_value[letter])
+     
+     # Concatenate all selected values or set "00" if none
+     if selected_values:
+         answer_string = ''.join(selected_values)
      else:
-         sec1records.append("0")  # Changed "Not marked" to "0"
+         answer_string = '00'
+     
+     sec1records.append(answer_string)
  
- answers = ''.join(sec1records)
+ # Generate the output string
+ answers3 = ''.join(sec1records)
  
  #########################################################################
  
@@ -477,27 +516,39 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[57])
  # cv2.imshow("Last",boxes[119])
  
- myPixelVal = np.zeros((Sectionq, qchoices))  # array filled with zeros
+ myPixelVal = np.zeros((Sectionq, qchoices))
  countC = 0
  countR = 0
  for image in boxes:
      totalPixels = cv2.countNonZero(image)
      myPixelVal[countR][countC] = totalPixels
      countC += 1
-     if(countC == qchoices):
+     if countC == qchoices:
          countR += 1
          countC = 0
  
+ # Process answers
  sec1records = []
  for row in range(Sectionq):
-     max_val = np.amax(myPixelVal[row])
-     if max_val > 750:
-         myIndexVal = np.where(myPixelVal[row] == max_val)
-         sec1records.append(alphabet_map[myIndexVal[0][0]])
+     selected_values = []
+     for col in range(qchoices):
+         if myPixelVal[row][col] > 750:
+             # Get the alphabet corresponding to the column index
+             letter = alphabet_map[col]
+             # Add the corresponding value to the list
+             if letter in alphabet_to_value:
+                 selected_values.append(alphabet_to_value[letter])
+     
+     # Concatenate all selected values or set "00" if none
+     if selected_values:
+         answer_string = ''.join(selected_values)
      else:
-         sec1records.append("0")  # Changed "Not marked" to "0"
+         answer_string = '00'
+     
+     sec1records.append(answer_string)
  
- answers = ''.join(sec1records)
+ # Generate the output string
+ answers4 = ''.join(sec1records)
  
  #########################################################################
  
@@ -529,27 +580,39 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # cv2.imshow("Mid",boxes[57])
  # cv2.imshow("Last",boxes[119])
  
- myPixelVal = np.zeros((Sectionq, qchoices))  # array filled with zeros
+ myPixelVal = np.zeros((Sectionq, qchoices))
  countC = 0
  countR = 0
  for image in boxes:
      totalPixels = cv2.countNonZero(image)
      myPixelVal[countR][countC] = totalPixels
      countC += 1
-     if(countC == qchoices):
+     if countC == qchoices:
          countR += 1
          countC = 0
  
+ # Process answers
  sec1records = []
  for row in range(Sectionq):
-     max_val = np.amax(myPixelVal[row])
-     if max_val > 750:
-         myIndexVal = np.where(myPixelVal[row] == max_val)
-         sec1records.append(alphabet_map[myIndexVal[0][0]])
+     selected_values = []
+     for col in range(qchoices):
+         if myPixelVal[row][col] > 750:
+             # Get the alphabet corresponding to the column index
+             letter = alphabet_map[col]
+             # Add the corresponding value to the list
+             if letter in alphabet_to_value:
+                 selected_values.append(alphabet_to_value[letter])
+     
+     # Concatenate all selected values or set "00" if none
+     if selected_values:
+         answer_string = ''.join(selected_values)
      else:
-         sec1records.append("0")  # Changed "Not marked" to "0"
+         answer_string = '00'
+     
+     sec1records.append(answer_string)
  
- answers = ''.join(sec1records)
+ # Generate the output string
+ answers5 = ''.join(sec1records)
  #########################################################################
   # Define the filename
  filename = 'answers.txt'
@@ -557,7 +620,7 @@ def readeromr(path="output.pdf", zoom_factor=3):
  # Append to CSV
  with open(filename, 'a', newline='') as csvfile:
      writer = csv.writer(csvfile)
-     writer.writerow([f"{student_id} {scriptversion_number} {lnamerecords} {fnamerecords} {mnameRemoved} {answers}"])
+     writer.writerow([f"{student_id} {scriptversion_number} {lnamerecords} {fnamerecords} {mnameRemoved} {answers}{answers2}{answers3}{answers4}{answers5}"])
  cv2.waitKey(0)
 def process_pdfs_in_folder(folder_path, zoom_factor=3):
     # Construct the full path pattern for PDF files
