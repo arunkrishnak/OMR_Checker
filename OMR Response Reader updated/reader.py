@@ -617,7 +617,7 @@ def readeromr(path="output.pdf", zoom_factor=3):
   # Define the filename
  filename = 'answers.txt'
  
- # Append to CSV
+ # Append to txt
  with open(filename, 'a', newline='') as csvfile:
      writer = csv.writer(csvfile)
      writer.writerow([f"{student_id} {scriptversion_number} {lnamerecords} {fnamerecords} {mnameRemoved} {answers}{answers2}{answers3}{answers4}{answers5}"])
@@ -629,9 +629,9 @@ def process_pdfs_in_folder(folder_path, zoom_factor=3):
     # Find all PDF files matching the pattern
     pdf_files = glob.glob(pdf_pattern)
     
-    # Process each PDF file
+    #Process each PDF file in the folder
     for pdf_file in pdf_files:
         readeromr(path=pdf_file, zoom_factor=zoom_factor)
 
-# Call the function with the folder path
+# folder path function with zoom
 process_pdfs_in_folder("answerpaper", zoom_factor=3)
