@@ -1,0 +1,11 @@
+Combined:
+python customOMR.py combine template.svg config.txt logo3.svg 14253678915975 5 output
+
+Replace paths with circles:
+python customOMR.py prefillOMR template.svg preFilled 45658793214524 5
+
+Insert SVG logo:
+python customOMR.py insertLogo template.svg logo3.svg OMR_logo.svg
+
+Replace captions:
+python customOMR.py replaceText template.svg config.txt OMR_captions.svg
