@@ -130,18 +130,15 @@ def replace_text(input_file, translations, output_file):
 
 
 def convert_svg_to_pdf(svg_file, pdf_file):
-    # Convert SVG to ReportLab Drawing object
     drawing = svg2rlg(svg_file)
-    
-    # Create a PDF file with ReportLab using A4 pagesize
     c = canvas.Canvas(pdf_file, pagesize=A4)
     page_width, page_height = A4
 
-    # Get SVG dimensions
+    #Get SVG dimensions
     svg_width = drawing.width
     svg_height = drawing.height
 
-    # Keep SVG dimensions same (no scaling)
+    # keep same dimesnsions
     drawing.scale(1, 1)
 
     # Calculate offsets to center the SVG on the page
@@ -151,7 +148,6 @@ def convert_svg_to_pdf(svg_file, pdf_file):
     # Render the SVG drawing into the PDF
     renderPDF.draw(drawing, c, x_offset, y_offset)
     
-    # Save the PDF
     c.save()
 
 
